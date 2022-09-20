@@ -1,72 +1,45 @@
-import 'package:curricuts/core/enums/faculty.dart';
-import 'package:curricuts/core/enums/teaching_responsibility.dart';
 import 'package:equatable/equatable.dart';
 
 class SubjectEntity extends Equatable {
   const SubjectEntity({
-    required this.spkCode,
+    required this.code,
     required this.name,
-    required this.faculty,
-    required this.teachingResponsibility,
-    required this.creditPoint,
-    this.courseMajorAsCoreComponent,
-    this.prerequisites = '',
-    this.antirequisites = '',
-    this.description,
-    this.availability,
-    this.teachingLearningStrategies,
-    this.contentGeneric,
-    this.requiredText,
+    required this.prerequisites,
+    required this.antirequisites,
+    required this.link,
   });
 
-  factory SubjectEntity.fromCSV(List<dynamic> row) {
-    final teaching = TeachingResponsibilityTypeConverter.convertFrom(row[4]);
-    final faculty = FacultyTypeConverter.convertFrom(row[2]);
+  factory SubjectEntity.fromJson(Map<String, dynamic> json) {
     return SubjectEntity(
-      spkCode: row[0],
-      name: row[1],
-      faculty: faculty,
-      courseMajorAsCoreComponent: row[3],
-      teachingResponsibility: teaching,
-      creditPoint: row[5],
-      prerequisites: row[6],
-      antirequisites: row[7],
-      description: row[8],
-      availability: row[9],
-      teachingLearningStrategies: row[10],
-      contentGeneric: row[11],
-      requiredText: row[12],
+      code: int.tryParse(json['code'] as String) ?? 0,
+      name: json['name'],
+      prerequisites: _toInt(json['preReq']),
+      antirequisites: _toInt(json['tooPer']),
+      link: _getLink(json['code']),
     );
   }
 
-  final int spkCode;
+  final int code;
   final String name;
-  final Faculty faculty;
-  final String? courseMajorAsCoreComponent;
-  final TeachingResponsibility teachingResponsibility;
-  final int creditPoint;
-  final String prerequisites;
-  final String antirequisites;
-  final String? description;
-  final String? availability;
-  final String? teachingLearningStrategies;
-  final String? contentGeneric;
-  final String? requiredText;
+  final List<int> prerequisites;
+  final List<int> antirequisites;
+  final String link;
+
+  static String _getLink(String code) {
+    return 'http://handbook.uts.edu.au/subjects/$code.html';
+  }
+
+  static List<int> _toInt(List<dynamic> json) {
+    if (json.isEmpty) return [];
+    return json.map((e) => int.parse(e)).toList(growable: false);
+  }
 
   @override
   List<Object?> get props => [
-        spkCode,
+        code,
         name,
-        faculty,
-        courseMajorAsCoreComponent,
-        teachingResponsibility,
-        creditPoint,
         prerequisites,
         antirequisites,
-        description,
-        availability,
-        teachingLearningStrategies,
-        contentGeneric,
-        requiredText,
+        link,
       ];
 }
