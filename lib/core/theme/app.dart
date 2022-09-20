@@ -45,6 +45,7 @@ class AppHeightValues {
   static const double mindHackCardHeight = 137;
   static const double lessonButtonHeight = 55.0;
   static const double divider = 1;
+  static const double closeButtonMinHeight = 10;
 }
 
 class AppWidthValues {
@@ -58,6 +59,7 @@ class AppWidthValues {
   static const double logoWidth = 112;
   static const double smallBorder = 1;
   static const double checkBoxBorder = 1.5;
+  static const double closeButtonMinWidth = 10;
 }
 
 class AppBorderRadiusValues {
@@ -88,6 +90,7 @@ class AppSizeValues {
   static const notCompletedDialogImageSize = Size.square(90);
   static const timerButton = Size(103, 48);
   static const timerCounter = Size(200, 80);
+  static const closeIconDialog = 16.0;
 }
 
 class AppImageSizeValues {
