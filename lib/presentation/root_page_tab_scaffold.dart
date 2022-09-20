@@ -1,4 +1,6 @@
-import 'package:curricuts/routing/initial_page_routes.dart';
+import 'package:curricuts/core/consts/app.dart';
+import 'package:curricuts/core/consts/home/home.dart';
+import 'package:curricuts/core/consts/subjects/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -21,6 +23,12 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
       duration: const Duration(milliseconds: 100),
     );
     _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,12 +64,12 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: HomeConsts.title,
                 backgroundColor: Colors.blue,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.lightbulb_outline),
-                label: 'Learn',
+                label: SubjectsConst.title,
                 backgroundColor: Colors.blue,
               ),
             ],
@@ -81,6 +89,7 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
           icon: const Icon(Icons.account_circle),
         ),
       ),
+      title: const Text(AppConsts.appName),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
