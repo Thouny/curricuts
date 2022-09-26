@@ -1,5 +1,6 @@
 import 'package:curricuts/presentation/pages/home/home.dart';
 import 'package:curricuts/presentation/pages/loading.dart';
+import 'package:curricuts/presentation/pages/subjects/subjects.dart';
 import 'package:curricuts/presentation/root_page_tab_scaffold.dart';
 import 'package:curricuts/routing/routes.dart';
 import 'package:routemaster/routemaster.dart';
@@ -20,7 +21,7 @@ class PageRoutes {
             child: RootPageTabScaffold(),
             paths: [
               Routes.home,
-              Routes.home,
+              Routes.subjects,
             ],
           ),
 
@@ -29,6 +30,12 @@ class PageRoutes {
       /// **********************************************************************
       // `/home`
       Routes.home: (_) => HomePage(),
+
+      /// **********************************************************************
+      /// subjects
+      /// **********************************************************************
+      // `/subjects`
+      Routes.subjects: (_) => SubjectsPage(),
     },
   );
 }
