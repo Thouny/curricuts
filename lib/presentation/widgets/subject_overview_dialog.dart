@@ -7,11 +7,9 @@ class SubjectOverviewDialog extends StatelessWidget {
   const SubjectOverviewDialog({
     Key? key,
     required this.subject,
-    // required this.onGetHelpTapped,
   }) : super(key: key);
 
   final SubjectEntity subject;
-  // final VoidCallback onGetHelpTapped;
 
   static const keyPrefix = 'SubjectOverviewDialog';
 
@@ -30,13 +28,9 @@ class SubjectOverviewDialog extends StatelessWidget {
             const _CloseButtonWidget(),
             _TitleWidget(title: subject.name),
             SizedBox.fromSize(
+              size: const Size(1500, 1500),
               child: WebView(initialUrl: subject.link),
-              size: Size(1500, 1500),
             ),
-            // const SizedBox(height: AppPaddingValues.xxSmallVerticalPadding),
-            // _ContentWidget(subject: subject),
-            // const SizedBox(height: AppPaddingValues.smallVerticalPadding),
-            // _FooterWidget(onGetHelpTapped: onGetHelpTapped),
             const SizedBox(height: AppPaddingValues.mediumVerticalPadding),
           ],
         ),
@@ -93,85 +87,3 @@ class _TitleWidget extends StatelessWidget {
     );
   }
 }
-
-// class _ContentWidget extends StatelessWidget {
-//   const _ContentWidget({
-//     Key? key,
-//     required this.subject,
-//   }) : super(key: key);
-
-//   final SubjectEntity subject;
-//   static const keyPrefix = SubjectOverviewDialog.keyPrefix;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     const horizontalPadding = AppPaddingValues.mediumHorizontalPadding;
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-//       child: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             // const SizedBox(height: AppPaddingValues.mediumVerticalPadding),
-//             Text(
-//               'Description',
-//               // key: const Key('$keyPrefix-Description'),
-//               textAlign: TextAlign.left,
-//               style: Theme.of(context).textTheme.headline6,
-//             ),
-//             Text(
-//               subject.description ?? '',
-//               key: const Key('$keyPrefix-Description'),
-//               textAlign: TextAlign.left,
-//               style: Theme.of(context).textTheme.bodyText2,
-//             ),
-//             const SizedBox(height: AppPaddingValues.mediumVerticalPadding),
-//             Text(
-//               'Teaching and learning Strategies',
-//               // key: const Key('$keyPrefix-Description'),
-//               textAlign: TextAlign.left,
-//               style: Theme.of(context).textTheme.headline6,
-//             ),
-//             Text(
-//               subject.teachingLearningStrategies ?? '',
-//               key: const Key('$keyPrefix-TeachingLearningStrategies'),
-//               textAlign: TextAlign.left,
-//               style: Theme.of(context).textTheme.bodyText2,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class _FooterWidget extends StatelessWidget {
-//   const _FooterWidget({
-//     Key? key,
-//     required this.onGetHelpTapped,
-//   }) : super(key: key);
-
-//   final VoidCallback onGetHelpTapped;
-//   static const keyPrefix = GetHelpDialog.keyPrefix;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     const horizontalPadding = AppPaddingValues.mediumHorizontalPadding;
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-//       child: SingleChildScrollView(
-//         child: OutlinedButton(
-//           key: const Key('$keyPrefix-HelpButton'),
-//           onPressed: onGetHelpTapped,
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Icon(Icons.phone_outlined, color: Theme.of(context).primaryColor),
-//               const SizedBox(width: AppPaddingValues.xSmallVerticalPadding),
-//               const Text(HelpConsts.getHelpPopUpButton),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
