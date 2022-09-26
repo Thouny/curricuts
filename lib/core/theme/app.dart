@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class AppColors {
+  static const blue = Color(0xFF0E4BEB);
+}
+
 class AppPaddingValues {
   static const double xxSmalPadding = 6;
   static const double xSmallPadding = 8;
