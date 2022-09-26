@@ -32,12 +32,7 @@ class _ContentWidget extends StatelessWidget {
     return BlocBuilder<SubjectsBloc, SubjectsState>(
       builder: (context, state) {
         if (state is LoadedSubjectsState) {
-          return Expanded(
-            child: GraphWidgetWrapper(
-              subjects: state.subjects,
-              selectedSubject: state.subjects[0],
-            ),
-          );
+          return GraphWidgetWrapper(subjects: state.subjects);
         } else if (state is FailedSubjectsState) {
           return ErrorCardWidget(message: state.message);
         } else {
