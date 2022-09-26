@@ -68,9 +68,13 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
           graph.addEdge(currentNode, Node.Id(subject));
           // }
         }
-        emit(LoadedGraphState(graph: graph, builder: builder));
+        emit(LoadedGraphState(
+          graph: graph,
+          builder: builder,
+          selectedSubject: event.subject,
+        ));
       } else {
-        emit(EmptyGraphState());
+        emit(EmptyGraphState(event.subject));
       }
     } catch (err) {
       emit(FailedGraphState(err.toString()));

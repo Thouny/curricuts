@@ -9,11 +9,23 @@ class InitialGraphState extends GraphState {}
 
 class LoadingGraphState extends GraphState {}
 
-class EmptyGraphState extends GraphState {}
+class EmptyGraphState extends GraphState {
+  EmptyGraphState(this.selectedSubject);
+
+  final SubjectEntity selectedSubject;
+
+  @override
+  List<Object?> get props => [selectedSubject];
+}
 
 class LoadedGraphState extends GraphState {
-  LoadedGraphState({required this.graph, required this.builder});
+  LoadedGraphState({
+    required this.selectedSubject,
+    required this.graph,
+    required this.builder,
+  });
 
+  final SubjectEntity selectedSubject;
   final Graph graph;
   final Algorithm builder;
 
