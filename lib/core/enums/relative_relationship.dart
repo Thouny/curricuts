@@ -22,20 +22,20 @@ extension Properties on RelativeRelationship {
   double get nodeHeight {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-        return 120;
+        return 100;
       case RelativeRelationship.selectedSubjectPrerequisite:
       case RelativeRelationship.prerequisite:
-        return 80;
+        return 60;
     }
   }
 
   double get nodeWidth {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-        return 120;
+        return 100;
       case RelativeRelationship.selectedSubjectPrerequisite:
       case RelativeRelationship.prerequisite:
-        return 160;
+        return 140;
     }
   }
 
