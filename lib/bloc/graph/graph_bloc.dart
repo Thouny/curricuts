@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:curricuts/core/enums/relative_relationship.dart';
 import 'package:curricuts/core/extensions/iterable.dart';
+import 'package:curricuts/core/utils/stack.dart';
 import 'package:curricuts/domain/entities/subject.dart';
 import 'package:curricuts/domain/repositories/subject.dart';
 import 'package:curricuts/presentation/models/subject.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphview/GraphView.dart';
@@ -27,7 +29,6 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
   ) async {
     try {
       emit(LoadingGraphState());
-      final graph = Graph();
       final builder = SugiyamaConfiguration()
         ..bendPointShape = CurvedBendPointShape(curveLength: 20)
         ..nodeSeparation = 15
@@ -35,38 +36,17 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
 
       final subjectsMap = subjects.groupBy((subject) => subject.code);
 
-      // TODO: Modify the algo, search for subjects where current subject is prereq
-      //DO the opposite, right now it is taking prerequisites but should
-      // be the inverse
       final currentSubject = SubjectModel.fromEntity(
         event.subject,
         RelativeRelationship.selectedSubject,
       );
 
-      final currentNode = Node.Id(currentSubject);
-      graph.addNode(currentNode);
-
-      if (currentSubject.prerequisites.isNotEmpty) {
-        final prerequisites = _getCurrentSubjectPrerequisites(
-          currentSubject,
-          subjects,
-          subjectsMap,
-        );
-        for (final element in prerequisites) {
-          graph.addEdge(Node.Id(element), currentNode);
-        }
-      }
-
-      final nextPrequisites = _buildNextPrerequisite(
+      final graph = _generateGraphWithDFS(
         currentSubject,
         subjects,
         subjectsMap,
       );
-      if (nextPrequisites.isNotEmpty) {
-        for (final element in nextPrequisites) {
-          graph.addEdge(currentNode, Node.Id(element));
-        }
-      }
+
       if (graph.nodes.isNotEmpty) {
         emit(LoadedGraphState(
           graph: graph,
@@ -81,6 +61,64 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
       // ignore: avoid_print
       print('ERROR: $err');
     }
+  }
+}
+
+extension _DepthFirstSearch on GraphBloc {
+  Graph _generateGraphWithDFS(
+    SubjectModel source,
+    List<SubjectEntity> subjects,
+    Map<int, List<SubjectEntity>> subjectsMap,
+  ) {
+    final graph = Graph();
+    final sourceNode = Node.Id(source);
+    graph.addNode(sourceNode);
+    final stack = Stack<SubjectModel>();
+    final pushed = <Edge>{};
+    final visited = <SubjectModel>[];
+
+    stack.push(source);
+    visited.add(source);
+
+    if (source.prerequisites.isNotEmpty) {
+      final prerequisites = _getCurrentSubjectPrerequisites(
+        source,
+        subjects,
+        subjectsMap,
+      );
+      for (final subject in prerequisites) {
+        final edge = graph.addEdge(Node.Id(subject), sourceNode);
+        stack.push(subject);
+        pushed.add(edge);
+        visited.add(subject);
+      }
+    }
+
+    outerloop:
+    while (stack.isNotEmpty) {
+      final currentNode = stack.peek;
+      final neighbors = _buildNextPrerequisite(
+        currentNode,
+        subjects,
+        subjectsMap,
+      );
+
+      for (final currentNeighbors in neighbors) {
+        final edge = _getTempEdge(currentNode, currentNeighbors);
+        if (!pushed.contains(edge)) {
+          graph.addEdge(Node.Id(currentNode), Node.Id(currentNeighbors));
+          stack.push(currentNeighbors);
+          pushed.add(edge);
+          visited.add(currentNeighbors);
+
+          continue outerloop;
+        }
+      }
+
+      stack.pop();
+    }
+
+    return graph;
   }
 }
 
@@ -130,5 +168,15 @@ extension _GraphHelpers on GraphBloc {
     }
 
     return nextPrerequisites;
+  }
+
+  Edge _getTempEdge(
+    SubjectModel source,
+    SubjectModel destination, {
+    Paint? paint,
+  }) {
+    final sourceNode = Node.Id(source);
+    final destinationNode = Node.Id(destination);
+    return Edge(sourceNode, destinationNode, paint: paint);
   }
 }

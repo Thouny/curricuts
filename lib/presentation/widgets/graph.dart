@@ -81,6 +81,7 @@ class GraphWidget extends StatelessWidget {
     BuildContext context,
     SubjectModel currentSubject,
   ) {
+    final bodySmall = Theme.of(context).textTheme.bodySmall;
     return InkWell(
       onTap: () {
         showDialog<void>(
@@ -108,7 +109,7 @@ class GraphWidget extends StatelessWidget {
         child: Center(
           child: Text(
             currentSubject.name,
-            style: const TextStyle(color: Colors.white),
+            style: bodySmall?.copyWith(color: Colors.white),
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
           ),
@@ -124,7 +125,6 @@ class GraphWidget extends StatelessWidget {
         if (state is LoadedGraphState) {
           return InteractiveViewer(
             constrained: false,
-            // boundaryMargin: const EdgeInsets.all(100),
             minScale: 1,
             maxScale: 100,
             child: Container(
@@ -137,19 +137,14 @@ class GraphWidget extends StatelessWidget {
                   ..strokeWidth = 2
                   ..style = PaintingStyle.fill,
                 builder: (Node node) {
-                  // I can decide what widget should be shown here based on the id
                   final subject = node.key?.value as SubjectModel;
-                  return _generateNodeWidget(
-                    context,
-                    // state.selectedSubject,
-                    subject,
-                  );
+                  return _generateNodeWidget(context, subject);
                 },
               ),
             ),
           );
         } else if (state is LoadingGraphState) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state is EmptyGraphState) {
           return Text(
             'No subject has ${state.selectedSubject.name} as a prerequisite',
