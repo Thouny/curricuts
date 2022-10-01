@@ -1,5 +1,5 @@
 import 'package:curricuts/core/theme/app.dart';
-import 'package:curricuts/domain/entities/subject.dart';
+import 'package:curricuts/presentation/models/subject.dart';
 import 'package:flutter/material.dart' hide MenuItem;
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -9,7 +9,7 @@ class SubjectOverviewDialog extends StatelessWidget {
     required this.subject,
   }) : super(key: key);
 
-  final SubjectEntity subject;
+  final SubjectModel subject;
 
   static const keyPrefix = 'SubjectOverviewDialog';
 
