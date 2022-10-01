@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  google_fonts: ^3.0.1
   csv: ^5.0.1
 
   webview_flutter: ^3.0.4
@@ -23,12 +24,15 @@ dependencies:
   # State management
   equatable: ^2.0.3
   flutter_bloc: ^8.1.1
+  provider: ^6.0.3
 
   # Dependency injection
   get_it: ^7.2.0
 
   # Data visualisation
-  graphview: ^1.1.1
+  graphview: 
+    git:
+      url: https://github.com/Thouny/graphview
 
   #Navigation
   routemaster: ^1.0.1
