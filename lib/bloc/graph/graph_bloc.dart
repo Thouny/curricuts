@@ -85,16 +85,6 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
 }
 
 extension _GraphHelpers on GraphBloc {
-  Node _generateNode(Graph graph, SubjectEntity subject) {
-    return Node.Id(subject);
-  }
-
-  void _generatesEdges(
-    Graph graph, {
-    required SubjectEntity from,
-    required SubjectEntity to,
-  }) {}
-
   List<SubjectModel> _getCurrentSubjectPrerequisites(
     SubjectModel currentSubject,
     List<SubjectEntity> subjects,

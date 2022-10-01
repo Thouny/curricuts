@@ -11,7 +11,6 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SubjectsBloc>(context);
     return Row(
       children: [
         if (!Responsive.isDesktop(context))

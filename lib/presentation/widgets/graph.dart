@@ -25,7 +25,7 @@ class GraphWidgetWrapper extends StatelessWidget {
         children: [
           const Header(title: AppConsts.dashboard),
           _SearchSubjectWidget(subjects: subjects),
-          Expanded(child: const GraphWidget()),
+          const Expanded(child: GraphWidget()),
         ],
       ),
     );

@@ -3,7 +3,6 @@ import 'package:curricuts/core/theme/app.dart';
 import 'package:curricuts/core/utils/responsive.dart';
 import 'package:curricuts/domain/entities/subject.dart';
 import 'package:curricuts/presentation/widgets/error_card.dart';
-import 'package:curricuts/presentation/widgets/header.dart';
 import 'package:curricuts/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
