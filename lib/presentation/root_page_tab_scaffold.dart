@@ -1,7 +1,7 @@
-import 'package:curricuts/core/consts/app.dart';
-import 'package:curricuts/core/consts/home/home.dart';
-import 'package:curricuts/core/consts/subjects/subjects.dart';
+import 'package:curricuts/controller/menu_controller.dart';
+import 'package:curricuts/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
 class RootPageTabScaffold extends StatefulWidget {
@@ -37,7 +37,8 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
     final currentPath = Routemaster.of(context).currentRoute.fullPath;
 
     return Scaffold(
-      appBar: _buildAppBar(context, currentPath),
+      key: context.read<MenuController>().scaffoldKey,
+      drawer: const SideMenu(),
       body: HeroControllerScope(
         controller: MaterialApp.createMaterialHeroController(),
         child: PageStackNavigator(
@@ -45,61 +46,6 @@ class _RootPageTabScaffoldState extends State<RootPageTabScaffold>
           stack: tabState.stacks[tabState.index],
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[200]!,
-              blurRadius: 8,
-              spreadRadius: 8,
-            ),
-          ],
-        ),
-        child: SizeTransition(
-          sizeFactor: _animationController,
-          axisAlignment: -1,
-          child: BottomNavigationBar(
-            onTap: (value) => tabState.controller.animateTo(value),
-            currentIndex: tabState.index,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: HomeConsts.title,
-                backgroundColor: Colors.blue,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.lightbulb_outline),
-                label: SubjectsConst.title,
-                backgroundColor: Colors.blue,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  AppBar _buildAppBar(BuildContext context, String currentPath) {
-    return AppBar(
-      elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.all(8),
-        child: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.account_circle),
-        ),
-      ),
-      title: const Text(AppConsts.appName),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.phone_outlined),
-            label: const Text('Placeholder'),
-          ),
-        ),
-      ],
     );
   }
 }
