@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:curricuts/core/enums/relative_relationship.dart';
 import 'package:curricuts/core/extensions/iterable.dart';
 import 'package:curricuts/domain/entities/subject.dart';
 import 'package:curricuts/domain/repositories/subject.dart';
+import 'package:curricuts/presentation/models/subject.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -26,52 +28,50 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
     try {
       emit(LoadingGraphState());
       final graph = Graph();
-      final builder = FruchtermanReingoldAlgorithm(
-        renderer: ArrowEdgeRenderer(),
-      );
+      final builder = SugiyamaConfiguration()
+        ..bendPointShape = CurvedBendPointShape(curveLength: 20)
+        ..nodeSeparation = 15
+        ..orientation = SugiyamaConfiguration.ORIENTATION_LEFT_RIGHT;
 
       final subjectsMap = subjects.groupBy((subject) => subject.code);
 
       // TODO: Modify the algo, search for subjects where current subject is prereq
       //DO the opposite, right now it is taking prerequisites but should
       // be the inverse
-      final currentSubject = event.subject;
+      final currentSubject = SubjectModel.fromEntity(
+        event.subject,
+        RelativeRelationship.selectedSubject,
+      );
+
       final currentNode = Node.Id(currentSubject);
-      // if (currentSubject.prerequisites.isNotEmpty) {
-      //   final currentNode = Node.Id(currentSubject);
-      //   for (final element in currentSubject.prerequisites) {
-      //     if (subjectsMap[element] != null) {
-      //       final subject = subjectsMap[element]!.first;
-      //       graph.addEdge(currentNode, Node.Id(subject));
-      //     }
-      //   }
+      graph.addNode(currentNode);
 
-      //   emit(LoadedGraphState(graph: graph, builder: builder));
-      // } else {
-      //   emit(EmptyGraphState());
-      // }
-      final nextSubjects = <SubjectEntity>[];
-
-      for (var element in subjects) {
-        final isNext = element.prerequisites.contains(currentSubject.code);
-        if (isNext) {
-          nextSubjects.add(element);
+      if (currentSubject.prerequisites.isNotEmpty) {
+        final prerequisites = _getCurrentSubjectPrerequisites(
+          currentSubject,
+          subjects,
+          subjectsMap,
+        );
+        for (final element in prerequisites) {
+          graph.addEdge(Node.Id(element), currentNode);
         }
       }
 
-      if (nextSubjects.isNotEmpty) {
-        for (final element in nextSubjects) {
-          final currentSubject = element;
-          // subjects.firstWhere((element) => element.code == currentSubject.code);
-          // if (subjectsMap[element.code] != null) {
-          final subject = subjectsMap[element.code]!.first;
-          graph.addEdge(currentNode, Node.Id(subject));
-          // }
+      final nextPrequisites = _buildNextPrerequisite(
+        currentSubject,
+        subjects,
+        subjectsMap,
+      );
+      if (nextPrequisites.isNotEmpty) {
+        for (final element in nextPrequisites) {
+          graph.addEdge(currentNode, Node.Id(element));
         }
+      }
+      if (graph.nodes.isNotEmpty) {
         emit(LoadedGraphState(
           graph: graph,
-          builder: builder,
-          selectedSubject: event.subject,
+          builder: SugiyamaAlgorithm(builder),
+          selectedSubject: currentSubject,
         ));
       } else {
         emit(EmptyGraphState(event.subject));
@@ -85,13 +85,50 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
 }
 
 extension _GraphHelpers on GraphBloc {
-  Node _generateNode(Graph graph, SubjectEntity subject) {
-    return Node.Id(subject);
+  List<SubjectModel> _getCurrentSubjectPrerequisites(
+    SubjectModel currentSubject,
+    List<SubjectEntity> subjects,
+    Map<int, List<SubjectEntity>> subjectsMap,
+  ) {
+    final prerequisites = <SubjectModel>[];
+    for (final element in currentSubject.prerequisites) {
+      if (subjectsMap[element] != null) {
+        final subject = subjectsMap[element]!.first;
+        final subjectModel = SubjectModel.fromEntity(
+          subject,
+          RelativeRelationship.selectedSubjectPrerequisite,
+        );
+        prerequisites.add(subjectModel);
+      }
+    }
+    return prerequisites;
   }
 
-  void _generatesEdges(
-    Graph graph, {
-    required SubjectEntity from,
-    required SubjectEntity to,
-  }) {}
+  List<SubjectModel> _buildNextPrerequisite(
+    SubjectModel currentSubject,
+    List<SubjectEntity> subjects,
+    Map<int, List<SubjectEntity>> subjectsMap,
+  ) {
+    final nextSubjects = <SubjectEntity>[];
+    final nextPrerequisites = <SubjectModel>[];
+    for (var element in subjects) {
+      final isNext = element.prerequisites.contains(currentSubject.code);
+      if (isNext) {
+        nextSubjects.add(element);
+      }
+    }
+
+    if (nextSubjects.isNotEmpty) {
+      for (final element in nextSubjects) {
+        final subject = subjectsMap[element.code]!.first;
+        final subjectModel = SubjectModel.fromEntity(
+          subject,
+          RelativeRelationship.prerequisite,
+        );
+        nextPrerequisites.add(subjectModel);
+      }
+    }
+
+    return nextPrerequisites;
+  }
 }

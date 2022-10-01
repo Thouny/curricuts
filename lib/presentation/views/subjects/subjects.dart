@@ -1,7 +1,9 @@
 import 'package:curricuts/bloc/subjects/subjects_bloc.dart';
 import 'package:curricuts/core/theme/app.dart';
+import 'package:curricuts/core/utils/responsive.dart';
 import 'package:curricuts/domain/entities/subject.dart';
 import 'package:curricuts/presentation/widgets/error_card.dart';
+import 'package:curricuts/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:searchable_listview/searchable_listview.dart';
@@ -12,15 +14,23 @@ class SubjectsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            _ContentWidget(),
-          ],
-        ),
+    return SafeArea(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // We want this side menu only for large screen
+          if (Responsive.isDesktop(context))
+            const Expanded(
+              // default flex = 1
+              // and it takes 1/6 part of the screen
+              child: SideMenu(),
+            ),
+          const Expanded(
+            // It takes 5/6 part of the screen
+            flex: 5,
+            child: _ContentWidget(),
+          ),
+        ],
       ),
     );
   }
@@ -40,14 +50,15 @@ class _ContentWidget extends StatelessWidget {
     return BlocBuilder<SubjectsBloc, SubjectsState>(
       builder: (context, state) {
         if (state is LoadedSubjectsState) {
-          return Expanded(
+          return Padding(
+            padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
             child: SearchableList<SubjectEntity>.seperated(
               initialList: state.subjects,
               builder: (subject) {
-                final _url = Uri.parse(subject.link);
+                final url = Uri.parse(subject.link);
                 return ListTile(
                   title: Text(subject.name),
-                  onTap: () => _launchUrl(_url),
+                  onTap: () => _launchUrl(url),
                 );
               },
               filter: (value) {
@@ -67,7 +78,7 @@ class _ContentWidget extends StatelessWidget {
                 fillColor: Colors.white,
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: AppColors.blue,
+                    color: AppColors.primaryColor,
                     width: 1.0,
                   ),
                   borderRadius: BorderRadius.circular(10.0),

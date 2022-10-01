@@ -1,9 +1,12 @@
 import 'package:curricuts/bloc/app/app_bloc.dart';
+import 'package:curricuts/controller/menu_controller.dart';
 import 'package:curricuts/core/consts/app.dart';
+import 'package:curricuts/core/theme/app.dart';
 import 'package:curricuts/core/utils/injector.dart';
 import 'package:curricuts/routing/page_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
 Future<void> initApp() async {
@@ -17,9 +20,16 @@ class AppWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppBloc()..add(const CheckAppStateEvent()),
-      child: const App(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => MenuController(),
+        ),
+      ],
+      child: BlocProvider(
+        create: (context) => AppBloc()..add(const CheckAppStateEvent()),
+        child: const App(),
+      ),
     );
   }
 }
@@ -59,6 +69,12 @@ class _AppState extends State<App> {
         return MaterialApp.router(
           key: ObjectKey(state),
           title: AppConsts.appName,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: AppColors.backgroundColor,
+            // textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            //     .apply(bodyColor: Colors.black87),
+          ),
           routeInformationParser: const RoutemasterParser(),
           routerDelegate: routemaster,
           builder: (context, child) => MediaQuery(

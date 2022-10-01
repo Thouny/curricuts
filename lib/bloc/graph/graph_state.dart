@@ -25,12 +25,18 @@ class LoadedGraphState extends GraphState {
     required this.builder,
   });
 
-  final SubjectEntity selectedSubject;
+  final SubjectModel selectedSubject;
   final Graph graph;
   final Algorithm builder;
 
   @override
-  List<Object?> get props => [graph, builder];
+  List<Object?> get props => [
+        graph.nodes.hashCode,
+        graph.edges.hashCode,
+        graph.hashCode,
+        builder,
+        selectedSubject,
+      ];
 }
 
 class FailedGraphState extends GraphState {
