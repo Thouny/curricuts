@@ -40,8 +40,6 @@ class _ContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: select subject with TextField
-    // TODO: create auto-complete
     return BlocBuilder<SubjectsBloc, SubjectsState>(
       builder: (context, state) {
         if (state is LoadedSubjectsState) {

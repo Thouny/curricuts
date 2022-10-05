@@ -1,5 +1,6 @@
 import 'package:curricuts/bloc/graph/graph_bloc.dart';
 import 'package:curricuts/core/consts/app.dart';
+import 'package:curricuts/core/enums/availability.dart';
 import 'package:curricuts/core/enums/relative_relationship.dart';
 import 'package:curricuts/core/theme/app.dart';
 import 'package:curricuts/domain/entities/subject.dart';
@@ -106,16 +107,41 @@ class GraphWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Center(
-          child: Text(
-            currentSubject.name,
-            style: bodySmall?.copyWith(color: Colors.white),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Center(
+              child: Text(
+                currentSubject.name,
+                style: bodySmall?.copyWith(color: Colors.white),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            ),
+            Row(
+              children: [..._generateIcons(currentSubject.availabilities)],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  List<Widget> _generateIcons(List<Availability> availabilities) {
+    final widgets = <Widget>[];
+    for (final element in availabilities) {
+      widgets.add(
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: element.color,
+            shape: BoxShape.circle,
+          ),
+        ),
+      );
+    }
+    return widgets;
   }
 
   @override
