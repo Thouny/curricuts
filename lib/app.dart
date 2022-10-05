@@ -72,6 +72,7 @@ class _AppState extends State<App> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData.light().copyWith(
             scaffoldBackgroundColor: AppColors.backgroundColor,
+            canvasColor: AppColors.secondaryColor,
             // textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
             //     .apply(bodyColor: Colors.black87),
           ),

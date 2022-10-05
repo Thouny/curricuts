@@ -1,3 +1,4 @@
+import 'package:curricuts/core/theme/app.dart';
 import 'package:flutter/material.dart';
 
 enum RelativeRelationship {
@@ -7,6 +8,17 @@ enum RelativeRelationship {
 }
 
 extension Properties on RelativeRelationship {
+  String get label {
+    switch (this) {
+      case RelativeRelationship.selectedSubject:
+        return 'Selected subject';
+      case RelativeRelationship.selectedSubjectPrerequisite:
+        return 'Subject prerequisite';
+      case RelativeRelationship.prerequisite:
+        return 'Related subject';
+    }
+  }
+
   Color get color {
     switch (this) {
       case RelativeRelationship.selectedSubject:
@@ -14,14 +26,13 @@ extension Properties on RelativeRelationship {
       case RelativeRelationship.selectedSubjectPrerequisite:
         return const Color.fromARGB(255, 231, 102, 92);
       case RelativeRelationship.prerequisite:
-        return Colors.grey;
+        return AppColors.primaryColor;
     }
   }
 
   double get nodeHeight {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 120;
       case RelativeRelationship.selectedSubjectPrerequisite:
       case RelativeRelationship.prerequisite:
         return 80;
@@ -31,7 +42,6 @@ extension Properties on RelativeRelationship {
   double get nodeWidth {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 120;
       case RelativeRelationship.selectedSubjectPrerequisite:
       case RelativeRelationship.prerequisite:
         return 160;
@@ -41,7 +51,6 @@ extension Properties on RelativeRelationship {
   double get borderRadius {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 100;
       case RelativeRelationship.selectedSubjectPrerequisite:
       case RelativeRelationship.prerequisite:
         return 10;

@@ -31,7 +31,7 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
       emit(LoadingGraphState());
       final builder = SugiyamaConfiguration()
         ..bendPointShape = CurvedBendPointShape(curveLength: 20)
-        ..nodeSeparation = 15
+        ..nodeSeparation = 30
         ..orientation = SugiyamaConfiguration.ORIENTATION_LEFT_RIGHT;
 
       final subjectsMap = subjects.groupBy((subject) => subject.code);
@@ -106,6 +106,7 @@ extension _DepthFirstSearch on GraphBloc {
       for (final currentNeighbors in neighbors) {
         final edge = _getTempEdge(currentNode, currentNeighbors);
         if (!pushed.contains(edge)) {
+          // TODO: Check for duplicates
           graph.addEdge(Node.Id(currentNode), Node.Id(currentNeighbors));
           stack.push(currentNeighbors);
           pushed.add(edge);
