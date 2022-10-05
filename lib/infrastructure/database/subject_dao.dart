@@ -12,7 +12,7 @@ class SubjectDao {
     final rawData = await rootBundle.loadString(AppConsts.dataPath);
     final results = json.decode(rawData);
     final subjects = <SubjectEntity>[];
-    for (final element in results) {
+    for (final element in (results as Map).values) {
       subjects.add(SubjectEntity.fromJson(element));
     }
     return subjects;
