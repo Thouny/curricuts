@@ -7422,7 +7422,6 @@
             "11501"
         ],
         "availabilities": [
-            "4hpw, weekly (Spring session, blended face-to-face and online); 1hpw (lecture), 3hpw (tutorial) ,6-11 September, 6hpd (blended face-to-face and online)",
             "Spring session, City campus"
         ]
     },
@@ -7466,7 +7465,7 @@
             "11199"
         ],
         "availabilities": [
-            "8hpw (Autumn session): 2hpw (lecture), 6hpw (studio)"
+            "Autumn session, City Campus"
         ]
     },
     "11189": {
@@ -7487,7 +7486,7 @@
         ],
         "tooPer": [],
         "availabilities": [
-            "4hpw, weekly (Spring session); 1hpw (lecture); 3hpw (tutorial/laboratory)"
+            "Spring session, City Campus"
         ]
     },
     "11191": {
@@ -8998,8 +8997,7 @@
         "code": "12591",
         "preReq": [],
         "tooPer": [],
-        "availabilities": [
-            "Block (Spring session):19hpw x 2wks; delivered F2F",
+        "availabilities": [ 
             "Spring session, City campus"
         ]
     },
@@ -14281,7 +14279,7 @@
             "87012"
         ],
         "availabilities": [
-            "6hpw (Autumn session)"
+            "Autumn session, City Campus"
         ]
     },
     "87012": {
@@ -14685,7 +14683,7 @@
         "preReq": [],
         "tooPer": [],
         "availabilities": [
-            "Studios: 3hpw (Spring session); 12hpw x 2wks, 9hpw x 1wk (December session)"
+            "Spring session, City Campus"
         ]
     },
     "87880": {
@@ -14774,7 +14772,6 @@
         "preReq": [],
         "tooPer": [],
         "availabilities": [
-            "3hpw x 12wks (workshop, on campus) (Autumn session)",
             "Autumn session, City campus"
         ]
     },
@@ -14815,7 +14812,6 @@
         "preReq": [],
         "tooPer": [],
         "availabilities": [
-            "Autumn and Spring sessions: 3hpw (practice-based studio/workshop)",
             "Spring session, City campus"
         ]
     },
@@ -24870,7 +24866,6 @@
         "preReq": [],
         "tooPer": [],
         "availabilities": [
-            "Spring session: 4 x 7hrs (workshops, on campus), 5-10hpw (online study via canvas)",
             "Autumn session, City campus",
             "Spring session, City campus"
         ]
@@ -25163,7 +25158,6 @@
         "preReq": [],
         "tooPer": [],
         "availabilities": [
-            "3 x 7hrs (workshops, on campus) [COVID-19 restrictions permitting], 15-20hpw (self-study, groupwork and participation in online activities) (Spring session).",
             "Autumn session, City campus",
             "Spring session, City campus"
         ]
@@ -38327,7 +38321,6 @@
             "91320"
         ],
         "availabilities": [
-            "4hpw x 12wks (Spring session, 1hr workshop, 3hrs practical), 8hpw x 6 wks (January session, 2hrs workshop, 6hrs practical)",
             "Spring session, City campus",
             "Summer session, City campus"
         ]
@@ -39228,7 +39221,6 @@
             "91270"
         ],
         "availabilities": [
-            "6hpw (Spring session)",
             "Spring session, City campus"
         ]
     },
@@ -39720,7 +39712,6 @@
             "91180"
         ],
         "availabilities": [
-            "Spring session: 11wks (2hpw, lecture; 3hrs, practical session [every alternating week]; 2x 2hrs, workshops, online). February session: 3wks (4 x 3hrs, practical sessions [3x face-to-face, 1x online]; 2x 2hrs, workshops, online; 10 x 2hrs, lectures)",
             "Spring session, City campus"
         ]
     },
@@ -39875,7 +39866,7 @@
             "91530"
         ],
         "availabilities": [
-            "6hpw: 2 hours per lab, 1 hour per tutorial. This subject is delivered during the first six weeks of the Autumn session."
+            "Autumn session, CIty Campus"
         ]
     },
     "91563": {
