@@ -26,12 +26,10 @@ class SubjectOverviewDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const _CloseButtonWidget(),
-            _TitleWidget(title: subject.name),
             SizedBox.fromSize(
               size: const Size(1500, 1500),
               child: WebView(initialUrl: subject.link),
             ),
-            const SizedBox(height: AppPaddingValues.mediumVerticalPadding),
           ],
         ),
       ),
@@ -62,27 +60,6 @@ class _CloseButtonWidget extends StatelessWidget {
           size: AppSizeValues.closeIconDialog,
           color: Colors.white54,
         ),
-      ),
-    );
-  }
-}
-
-class _TitleWidget extends StatelessWidget {
-  const _TitleWidget({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  static const keyPrefix = SubjectOverviewDialog.keyPrefix;
-
-  @override
-  Widget build(BuildContext context) {
-    const horizontalPadding = AppPaddingValues.mediumHorizontalPadding;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-      child: Text(
-        title,
-        key: const Key('$keyPrefix-TitleText'),
-        style: Theme.of(context).textTheme.headline4,
       ),
     );
   }

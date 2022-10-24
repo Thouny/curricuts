@@ -31,7 +31,7 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
       emit(LoadingGraphState());
       final builder = SugiyamaConfiguration()
         ..bendPointShape = CurvedBendPointShape(curveLength: 20)
-        ..nodeSeparation = 15
+        ..nodeSeparation = 50
         ..orientation = SugiyamaConfiguration.ORIENTATION_LEFT_RIGHT;
 
       final subjectsMap = subjects.groupBy((subject) => subject.code);
@@ -87,9 +87,7 @@ extension _DepthFirstSearch on GraphBloc {
         subjectsMap,
       );
       for (final subject in prerequisites) {
-        final edge = graph.addEdge(Node.Id(subject), sourceNode);
-        stack.push(subject);
-        pushed.add(edge);
+        graph.addEdge(Node.Id(subject), sourceNode);
         visited.add(subject);
       }
     }
@@ -97,19 +95,19 @@ extension _DepthFirstSearch on GraphBloc {
     outerloop:
     while (stack.isNotEmpty) {
       final currentNode = stack.peek;
-      final neighbors = _buildNextPrerequisite(
+      final neighbors = _getPostrequisites(
         currentNode,
         subjects,
         subjectsMap,
       );
 
-      for (final currentNeighbors in neighbors) {
-        final edge = _getTempEdge(currentNode, currentNeighbors);
+      for (final currentNeighbor in neighbors) {
+        final edge = _getTempEdge(currentNode, currentNeighbor);
         if (!pushed.contains(edge)) {
-          graph.addEdge(Node.Id(currentNode), Node.Id(currentNeighbors));
-          stack.push(currentNeighbors);
+          graph.addEdge(Node.Id(currentNode), Node.Id(currentNeighbor));
+          stack.push(currentNeighbor);
           pushed.add(edge);
-          visited.add(currentNeighbors);
+          visited.add(currentNeighbor);
 
           continue outerloop;
         }
@@ -134,7 +132,7 @@ extension _GraphHelpers on GraphBloc {
         final subject = subjectsMap[element]!.first;
         final subjectModel = SubjectModel.fromEntity(
           subject,
-          RelativeRelationship.selectedSubjectPrerequisite,
+          RelativeRelationship.prequisite,
         );
         prerequisites.add(subjectModel);
       }
@@ -142,32 +140,24 @@ extension _GraphHelpers on GraphBloc {
     return prerequisites;
   }
 
-  List<SubjectModel> _buildNextPrerequisite(
+  List<SubjectModel> _getPostrequisites(
     SubjectModel currentSubject,
     List<SubjectEntity> subjects,
     Map<int, List<SubjectEntity>> subjectsMap,
   ) {
-    final nextSubjects = <SubjectEntity>[];
-    final nextPrerequisites = <SubjectModel>[];
-    for (var element in subjects) {
-      final isNext = element.prerequisites.contains(currentSubject.code);
-      if (isNext) {
-        nextSubjects.add(element);
-      }
-    }
-
-    if (nextSubjects.isNotEmpty) {
-      for (final element in nextSubjects) {
-        final subject = subjectsMap[element.code]!.first;
+    final postRequisites = <SubjectModel>[];
+    for (final element in currentSubject.postrequisites) {
+      if (subjectsMap[element] != null) {
+        final subject = subjectsMap[element]!.first;
         final subjectModel = SubjectModel.fromEntity(
           subject,
-          RelativeRelationship.prerequisite,
+          RelativeRelationship.postrequisite,
         );
-        nextPrerequisites.add(subjectModel);
+        postRequisites.add(subjectModel);
       }
     }
 
-    return nextPrerequisites;
+    return postRequisites;
   }
 
   Edge _getTempEdge(

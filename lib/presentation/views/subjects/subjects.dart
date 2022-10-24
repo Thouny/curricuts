@@ -57,13 +57,13 @@ class _ContentWidget extends StatelessWidget {
               builder: (subject) {
                 final url = Uri.parse(subject.link);
                 return ListTile(
-                  title: Text(subject.name),
+                  title: Text('${subject.code} - ${subject.name}'),
                   onTap: () => _launchUrl(url),
                 );
               },
               filter: (value) {
                 final filteredSubjects = state.subjects.where((element) {
-                  return element.name
+                  return '${element.code} - ${element.name}'
                       .toLowerCase()
                       .contains(value.toLowerCase());
                 }).toList();

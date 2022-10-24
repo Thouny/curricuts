@@ -7,6 +7,7 @@ import 'package:curricuts/domain/entities/subject.dart';
 import 'package:curricuts/presentation/models/subject.dart';
 import 'package:curricuts/presentation/widgets/error_card.dart';
 import 'package:curricuts/presentation/widgets/header.dart';
+import 'package:curricuts/presentation/widgets/legend.dart';
 import 'package:curricuts/presentation/widgets/subject_overview_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,13 +50,15 @@ class _SearchSubjectWidget extends StatelessWidget {
           initialList: const [],
           builder: (subject) {
             return ListTile(
-              title: Text(subject.name),
+              title: Text('${subject.code} - ${subject.name}'),
               onTap: () => bloc.add(LoadGraphEvent(subject: subject)),
             );
           },
           filter: (value) {
             final filteredSubjects = subjects.where((element) {
-              return element.name.toLowerCase().contains(value.toLowerCase());
+              return '${element.code} - ${element.name}'
+                  .toLowerCase()
+                  .contains(value.toLowerCase());
             }).toList();
             return filteredSubjects;
           },
@@ -93,7 +96,7 @@ class GraphWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppPaddingValues.smallPadding),
         height: currentSubject.relationship.nodeHeight,
         width: currentSubject.relationship.nodeWidth,
         decoration: BoxDecoration(
@@ -112,14 +115,25 @@ class GraphWidget extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                currentSubject.name,
+                '${currentSubject.code} - ${currentSubject.name}',
                 style: bodySmall?.copyWith(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
             ),
             Row(
-              children: [..._generateIcons(currentSubject.availabilities)],
+              children: [
+                ..._generateIcons(currentSubject.availabilities),
+                const Spacer(),
+                Text(
+                  currentSubject.creditPoints,
+                  style: bodySmall?.copyWith(
+                    color: Colors.white,
+                    // fontSize: 10,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -131,12 +145,15 @@ class GraphWidget extends StatelessWidget {
     final widgets = <Widget>[];
     for (final element in availabilities) {
       widgets.add(
-        Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: element.color,
-            shape: BoxShape.circle,
+        Padding(
+          padding: const EdgeInsets.only(right: AppPaddingValues.xxSmalPadding),
+          child: Container(
+            width: AppSizeValues.xSmallIcon,
+            height: AppSizeValues.xSmallIcon,
+            decoration: BoxDecoration(
+              color: element.color,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
       );
@@ -149,25 +166,31 @@ class GraphWidget extends StatelessWidget {
     return BlocBuilder<GraphBloc, GraphState>(
       builder: (context, state) {
         if (state is LoadedGraphState) {
-          return InteractiveViewer(
-            constrained: false,
-            minScale: 1,
-            maxScale: 100,
-            child: Container(
-              alignment: Alignment.center,
-              child: GraphView(
-                graph: state.graph,
-                algorithm: state.builder,
-                paint: Paint()
-                  ..color = Colors.black87
-                  ..strokeWidth = 2
-                  ..style = PaintingStyle.fill,
-                builder: (Node node) {
-                  final subject = node.key?.value as SubjectModel;
-                  return _generateNodeWidget(context, subject);
-                },
+          return Stack(
+            children: [
+              InteractiveViewer(
+                constrained: false,
+                minScale: 0.8,
+                maxScale: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: GraphView(
+                    graph: state.graph,
+                    algorithm: state.builder,
+                    paint: Paint()
+                      ..color = Colors.black87
+                      ..strokeWidth = 2
+                      ..style = PaintingStyle.fill,
+                    builder: (Node node) {
+                      final subject = node.key?.value as SubjectModel;
+                      return _generateNodeWidget(context, subject);
+                    },
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: 500, width: 500),
+              const Positioned(right: 50, bottom: 0, child: LegendWidget()),
+            ],
           );
         } else if (state is LoadingGraphState) {
           return const Center(child: CircularProgressIndicator());

@@ -1,29 +1,40 @@
+import 'package:curricuts/core/theme/app.dart';
 import 'package:flutter/material.dart';
 
 enum RelativeRelationship {
   selectedSubject,
-  selectedSubjectPrerequisite,
-  prerequisite,
+  prequisite,
+  postrequisite,
 }
 
 extension Properties on RelativeRelationship {
+  String get label {
+    switch (this) {
+      case RelativeRelationship.selectedSubject:
+        return 'Selected subject';
+      case RelativeRelationship.prequisite:
+        return 'Subject pre-requisite';
+      case RelativeRelationship.postrequisite:
+        return 'Subject post-requisite';
+    }
+  }
+
   Color get color {
     switch (this) {
       case RelativeRelationship.selectedSubject:
         return const Color.fromARGB(255, 104, 197, 107);
-      case RelativeRelationship.selectedSubjectPrerequisite:
+      case RelativeRelationship.prequisite:
         return const Color.fromARGB(255, 231, 102, 92);
-      case RelativeRelationship.prerequisite:
-        return Colors.grey;
+      case RelativeRelationship.postrequisite:
+        return AppColors.primaryColor;
     }
   }
 
   double get nodeHeight {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 120;
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 80;
     }
   }
@@ -31,9 +42,8 @@ extension Properties on RelativeRelationship {
   double get nodeWidth {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 120;
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 160;
     }
   }
@@ -41,9 +51,8 @@ extension Properties on RelativeRelationship {
   double get borderRadius {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      // return 100;
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 10;
     }
   }

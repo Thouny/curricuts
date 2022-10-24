@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const primaryColor = Color(0xFF0E4BEB);
   static const secondaryColor = Color(0xFF2A2D3E);
-  static const backgroundColor = Colors.white;
+  static const backgroundColor = Color(0x00DADADA);
 }
 
 class AppPaddingValues {
@@ -91,6 +91,8 @@ class AppButtonValues {
 }
 
 class AppSizeValues {
+  static const icon = 24.0;
+  static const xSmallIcon = 10.0;
   static const emptyViewImageSize = Size.square(156);
   static const multipleChoiceCardSize = Size.square(168);
   static const notCompletedDialogImageSize = Size.square(90);

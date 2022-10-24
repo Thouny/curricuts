@@ -2,34 +2,35 @@ import 'package:curricuts/core/enums/availability.dart';
 import 'package:equatable/equatable.dart';
 
 class SubjectEntity extends Equatable {
-  const SubjectEntity(
-      {required this.code,
-      required this.name,
-      required this.prerequisites,
-      required this.antirequisites,
-      required this.link,
-      this.typicalAvailabilities = const [],
-      this.availabilities = const [Availability.autumn, Availability.spring]});
+  const SubjectEntity({
+    required this.code,
+    required this.name,
+    required this.prerequisites,
+    required this.postrequisites,
+    required this.link,
+    this.availabilities = const [Availability.autumn, Availability.spring],
+    required this.creditPoints,
+  });
 
   factory SubjectEntity.fromJson(Map<String, dynamic> json) {
     return SubjectEntity(
       code: int.tryParse(json['code'] as String) ?? 0,
       name: json['name'],
       prerequisites: _toInt(json['preReq']),
-      antirequisites: _toInt(json['tooPer']),
+      postrequisites: _toInt(json['tooPer']),
       link: _getLink(json['code']),
-      typicalAvailabilities: List<String>.from(json['availabilities']),
       availabilities: _convertToEnum(List<String>.from(json['availabilities'])),
+      creditPoints: json['credit_points'],
     );
   }
 
   final int code;
   final String name;
   final List<int> prerequisites;
-  final List<int> antirequisites;
+  final List<int> postrequisites;
   final String link;
-  final List<String> typicalAvailabilities;
   final List<Availability> availabilities;
+  final String creditPoints;
 
   static String _getLink(String code) {
     return 'http://handbook.uts.edu.au/subjects/$code.html';
@@ -63,9 +64,9 @@ class SubjectEntity extends Equatable {
         code,
         name,
         prerequisites,
-        antirequisites,
+        postrequisites,
         link,
-        typicalAvailabilities,
         availabilities,
+        creditPoints,
       ];
 }

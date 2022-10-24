@@ -11,13 +11,17 @@ with open('/Users/anthonyvu/Projects/uni/curricuts/uts_handbook/subject_map_2021
         currentSubjectCode = subjectCode
         url = "https://handbook.uts.edu.au/subjects/%s.html" % currentSubjectCode
         availabilities = []
+        creditPoint = '6cp'
         r = requests.get(url)
         soup = BeautifulSoup(r.content)
         for e in soup.stripped_strings:
             if "Autumn session" in e or "Spring session" in e or "Summer session" in e:
-                print(e)
+                # print(e)
                 availabilities.append(e)
+            if "cp" in e:
+                creditPoint = e
         subjects[currentSubjectCode]['availabilities'] = availabilities
+        subjects[currentSubjectCode]['credit_points'] = creditPoint
         print(subjects[currentSubjectCode])
 
     json_object = json.dumps(subjects, indent=4)

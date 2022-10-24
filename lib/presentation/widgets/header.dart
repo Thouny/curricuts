@@ -1,4 +1,3 @@
-import 'package:curricuts/bloc/subjects/subjects_bloc.dart';
 import 'package:curricuts/controller/menu_controller.dart';
 import 'package:curricuts/core/utils/responsive.dart';
 import 'package:flutter/material.dart';

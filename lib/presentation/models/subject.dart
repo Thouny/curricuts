@@ -4,28 +4,29 @@ import 'package:curricuts/domain/entities/subject.dart';
 import 'package:equatable/equatable.dart';
 
 class SubjectModel extends Equatable {
-  const SubjectModel(
-      {required this.code,
-      required this.name,
-      required this.prerequisites,
-      required this.antirequisites,
-      required this.link,
-      required this.relationship,
-      this.typicalAvailabilities = const [],
-      this.availabilities = const [
-        Availability.autumn,
-        Availability.spring,
-        Availability.summer,
-      ]});
+  const SubjectModel({
+    required this.code,
+    required this.name,
+    required this.prerequisites,
+    required this.postrequisites,
+    required this.link,
+    required this.relationship,
+    this.availabilities = const [
+      Availability.autumn,
+      Availability.spring,
+      Availability.summer,
+    ],
+    required this.creditPoints,
+  });
 
   final int code;
   final String name;
   final List<int> prerequisites;
-  final List<int> antirequisites;
+  final List<int> postrequisites;
   final String link;
   final RelativeRelationship relationship;
-  final List<String> typicalAvailabilities;
   final List<Availability> availabilities;
+  final String creditPoints;
 
   factory SubjectModel.fromEntity(
     SubjectEntity entity,
@@ -35,11 +36,11 @@ class SubjectModel extends Equatable {
       code: entity.code,
       name: entity.name,
       prerequisites: entity.prerequisites,
-      antirequisites: entity.antirequisites,
+      postrequisites: entity.postrequisites,
       link: entity.link,
       relationship: relationship,
-      typicalAvailabilities: entity.typicalAvailabilities,
       availabilities: entity.availabilities,
+      creditPoints: entity.creditPoints,
     );
   }
 
@@ -48,10 +49,10 @@ class SubjectModel extends Equatable {
         code,
         name,
         prerequisites,
-        antirequisites,
+        postrequisites,
         link,
         relationship,
-        typicalAvailabilities,
         availabilities,
+        creditPoints,
       ];
 }
