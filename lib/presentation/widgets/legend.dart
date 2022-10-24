@@ -55,18 +55,51 @@ class LegendWidget extends StatelessWidget {
         ),
       );
     }
+    final bodyMedium = Theme.of(context).textTheme.bodyMedium;
+    widgets.add(
+      Padding(
+        padding: const EdgeInsets.only(
+          bottom: AppPaddingValues.xSmallPadding,
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+                height: AppSizeValues.icon,
+                width: AppSizeValues.icon,
+                child: Text(
+                  'cp',
+                  textAlign: TextAlign.center,
+                  style: bodyMedium?.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+                )),
+            const SizedBox(width: 50),
+            Text(
+              'Credit Points',
+              style: Theme.of(context).textTheme.caption,
+              maxLines: 2,
+            ),
+          ],
+        ),
+      ),
+    );
     return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
-      width: 400,
+      height: 320,
+      width: 300,
       child: Card(
-        elevation: 2,
+        elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.all(AppPaddingValues.mediumPadding),
+          padding: const EdgeInsets.fromLTRB(
+            AppPaddingValues.mediumPadding,
+            AppPaddingValues.mediumPadding,
+            AppPaddingValues.mediumPadding,
+            0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

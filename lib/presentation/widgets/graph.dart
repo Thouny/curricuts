@@ -56,7 +56,9 @@ class _SearchSubjectWidget extends StatelessWidget {
           },
           filter: (value) {
             final filteredSubjects = subjects.where((element) {
-              return element.name.toLowerCase().contains(value.toLowerCase());
+              return '${element.code} - ${element.name}'
+                  .toLowerCase()
+                  .contains(value.toLowerCase());
             }).toList();
             return filteredSubjects;
           },
@@ -120,7 +122,18 @@ class GraphWidget extends StatelessWidget {
               ),
             ),
             Row(
-              children: [..._generateIcons(currentSubject.availabilities)],
+              children: [
+                ..._generateIcons(currentSubject.availabilities),
+                const Spacer(),
+                Text(
+                  currentSubject.creditPoints,
+                  style: bodySmall?.copyWith(
+                    color: Colors.white,
+                    // fontSize: 10,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -157,8 +170,8 @@ class GraphWidget extends StatelessWidget {
             children: [
               InteractiveViewer(
                 constrained: false,
-                minScale: 1,
-                maxScale: 100,
+                minScale: 0.8,
+                maxScale: 5,
                 child: Container(
                   alignment: Alignment.center,
                   child: GraphView(
@@ -175,7 +188,8 @@ class GraphWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const Positioned(right: 100, bottom: 100, child: LegendWidget()),
+              const SizedBox(height: 500, width: 500),
+              const Positioned(right: 50, bottom: 0, child: LegendWidget()),
             ],
           );
         } else if (state is LoadingGraphState) {
