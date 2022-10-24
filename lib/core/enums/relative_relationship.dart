@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 enum RelativeRelationship {
   selectedSubject,
-  selectedSubjectPrerequisite,
-  prerequisite,
+  prequisite,
+  postrequisite,
 }
 
 extension Properties on RelativeRelationship {
@@ -12,10 +12,10 @@ extension Properties on RelativeRelationship {
     switch (this) {
       case RelativeRelationship.selectedSubject:
         return 'Selected subject';
-      case RelativeRelationship.selectedSubjectPrerequisite:
-        return 'Subject prerequisite';
-      case RelativeRelationship.prerequisite:
-        return 'Related subject';
+      case RelativeRelationship.prequisite:
+        return 'Subject pre-requisite';
+      case RelativeRelationship.postrequisite:
+        return 'Subject post-requisite';
     }
   }
 
@@ -23,9 +23,9 @@ extension Properties on RelativeRelationship {
     switch (this) {
       case RelativeRelationship.selectedSubject:
         return const Color.fromARGB(255, 104, 197, 107);
-      case RelativeRelationship.selectedSubjectPrerequisite:
+      case RelativeRelationship.prequisite:
         return const Color.fromARGB(255, 231, 102, 92);
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.postrequisite:
         return AppColors.primaryColor;
     }
   }
@@ -33,8 +33,8 @@ extension Properties on RelativeRelationship {
   double get nodeHeight {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 80;
     }
   }
@@ -42,8 +42,8 @@ extension Properties on RelativeRelationship {
   double get nodeWidth {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 160;
     }
   }
@@ -51,8 +51,8 @@ extension Properties on RelativeRelationship {
   double get borderRadius {
     switch (this) {
       case RelativeRelationship.selectedSubject:
-      case RelativeRelationship.selectedSubjectPrerequisite:
-      case RelativeRelationship.prerequisite:
+      case RelativeRelationship.prequisite:
+      case RelativeRelationship.postrequisite:
         return 10;
     }
   }
