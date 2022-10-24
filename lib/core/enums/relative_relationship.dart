@@ -35,7 +35,7 @@ extension Properties on RelativeRelationship {
       case RelativeRelationship.selectedSubject:
       case RelativeRelationship.prequisite:
       case RelativeRelationship.postrequisite:
-        return 80;
+        return 90;
     }
   }
 
@@ -44,7 +44,7 @@ extension Properties on RelativeRelationship {
       case RelativeRelationship.selectedSubject:
       case RelativeRelationship.prequisite:
       case RelativeRelationship.postrequisite:
-        return 160;
+        return 180;
     }
   }
 

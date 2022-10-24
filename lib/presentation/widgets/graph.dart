@@ -118,7 +118,7 @@ class GraphWidget extends StatelessWidget {
                 '${currentSubject.code} - ${currentSubject.name}',
                 style: bodySmall?.copyWith(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+                maxLines: 3,
               ),
             ),
             Row(
